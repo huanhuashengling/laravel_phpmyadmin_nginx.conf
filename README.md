@@ -48,14 +48,14 @@ http {
     #gzip  on;
 
     server {
-        listen       8001;
-        server_name  www.oic.com;
+        listen       80;
+        server_name  server_name;
 
         #charset koi8-r;
 
         #access_log  logs/host.access.log  main;
-		    root /your/www/root/project/public;
-		    index index.php;
+	root /your/laravel/project/public;
+	index index.php;
         location / {
         	try_files $uri $uri/ /index.php?query_string;    
         }
@@ -66,18 +66,18 @@ http {
 	}
 
     	location /phpmyadmin {
-		root /opt/local/share/nginx/html/;
+		root /.../local/share/nginx/html/;
 		index index.php;
 		location ~ ^/phpmyadmin/(.+\.php)$ {
 	    		try_files $uri =404;
-	    		root /opt/local/share/nginx/html/;
+	    		root /.../local/share/nginx/html/;
 	    		fastcgi_pass 127.0.0.1:9000;
 	    		fastcgi_index index.php;
 	    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 	    		include fastcgi.conf;
   		}
 		location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ { 
-			alias /opt/local/share/nginx/html/; 
+			alias /.../local/share/nginx/html/; 
 		}
 	}
         #error_page  404              /404.html;
@@ -100,7 +100,7 @@ http {
         location ~ \.php$ {
             	fastcgi_pass   127.0.0.1:9000;
             	fastcgi_index  index.php;
-	        fastcgi_param  SCRIPT_FILENAME /opt/local/share/nginx/html$fastcgi_script_name;
+	        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
             	include        fastcgi.conf;
         }
 		
