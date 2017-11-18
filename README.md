@@ -10,7 +10,7 @@ Download the phpmyadmin and unpack into www root;
 
 Clone your laravel project code into your www root.
 
-First make syslink to nginx html root
+First make syslink form www/root/phpmyadmin to nginx html root
 then use these code to make things working.
 
 ```
