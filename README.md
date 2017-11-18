@@ -2,11 +2,15 @@
 nginx.conf use for pattern like this: http://ip(domain)/phpmyadmin as phpmyadmin index page and http://ip(domain)/ as laravel root
 
 
-Assume you have setup all the develop or production envirement, 
-like centos + nginx + mysql + php56 + php-fpm + git + composer and download the phpmyadmin package and so on.
+Assume you have setup all the develop or production environment;
 
-1. unpack phpmyadmin into www root and make syslink to nginx html root
-2. clone your laravel project code into your www root.
+Like centos + nginx + mysql + php56 + php-fpm + git + composer;
+
+Download the phpmyadmin and unpack into www root;
+
+Clone your laravel project code into your www root.
+
+First make syslink to nginx html root
 then use these code to make things working.
 
 ```
@@ -50,32 +54,32 @@ http {
         #charset koi8-r;
 
         #access_log  logs/host.access.log  main;
-		    root /Users/ywj/Sites/our-information-class/public;
+		    root /your/www/root/project/public;
 		    index index.php;
         location / {
         	try_files $uri $uri/ /index.php?query_string;    
         }
         
-		    location ~* \.(jpg|jpeg|gif|css|png|js|ioc|html)$ {
-			    access_log off;
-			    expires max;
-		    }
+	location ~* \.(jpg|jpeg|gif|css|png|js|ioc|html)$ {
+		access_log off;
+		expires max;
+	}
 
-    	  location /phpmyadmin {
-	    	  root /opt/local/share/nginx/html/;
-			    index index.php;
-			    location ~ ^/phpmyadmin/(.+\.php)$ {
-				    try_files $uri =404;
-				    root /opt/local/share/nginx/html/;
-				    fastcgi_pass 127.0.0.1:9000;
-				    fastcgi_index index.php;
-				    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-				    include fastcgi.conf;
-			  }
-			  location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ { 
-				  alias /opt/local/share/nginx/html/; 
-			  }
-		  }
+    	location /phpmyadmin {
+		root /opt/local/share/nginx/html/;
+		index index.php;
+		location ~ ^/phpmyadmin/(.+\.php)$ {
+	    		try_files $uri =404;
+	    		root /opt/local/share/nginx/html/;
+	    		fastcgi_pass 127.0.0.1:9000;
+	    		fastcgi_index index.php;
+	    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	    		include fastcgi.conf;
+  		}
+		location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ { 
+			alias /opt/local/share/nginx/html/; 
+		}
+	}
         #error_page  404              /404.html;
 
         # redirect server error pages to the static page /50x.html
@@ -94,10 +98,10 @@ http {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         #
         location ~ \.php$ {
-            fastcgi_pass   127.0.0.1:9000;
-            fastcgi_index  index.php;
-	          fastcgi_param  SCRIPT_FILENAME /opt/local/share/nginx/html$fastcgi_script_name;
-            include        fastcgi.conf;
+            	fastcgi_pass   127.0.0.1:9000;
+            	fastcgi_index  index.php;
+	        fastcgi_param  SCRIPT_FILENAME /opt/local/share/nginx/html$fastcgi_script_name;
+            	include        fastcgi.conf;
         }
 		
         location ~ /\.ht {
